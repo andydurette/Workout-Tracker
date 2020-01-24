@@ -2,9 +2,11 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv/config');
 
 // Create an instance of the express app.
-var app = express();
+let app = express();
+const mongoose = require('mongoose');
 
 // Added so body parser can handle post requests
 app.use(bodyParser.json());
@@ -17,23 +19,29 @@ app.use(express.static(path.join(__dirname, '/public')));
 // process.env.PORT lets the port be set by Heroku
 var PORT = process.env.PORT || 9090;
 
-//Middleware
+/******************************* Routes  ****************************/
+app.get("/", (req,res) => {
+  res.send("hi");
+});
 
+app.get("/exercise", (req,res) => {
+  res.send("hi");
+});
 
-
-//Routes
-
-app.get("/", function(req,res){
-  res.send('We are on home!');
+app.get("/api/workouts", (req,res) => {
+  res.send("hi");
 });
 
 
-app.get("/exercise", function(req,res){
-  res.send('We are on exercise!');
-});
 
 
 
+/******************************* Connect to db  ****************************/
+mongoose.connect(
+  'process.env.DB_CONNECTION',
+  { useUnifiedTopology: true, useNewUrlParser: true }, () =>  
+  console.log("Connected to DB")
+);
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function() {
