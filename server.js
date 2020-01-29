@@ -61,6 +61,7 @@ app.get("/api/workouts/range", (req,res) => {
 
 
 //PUT REQUESTS
+
 app.put("/api/workouts/:id", (req,res) => {
 
 let urlData = req.params;
@@ -84,20 +85,36 @@ let data = req.body;
 
 });
 
+
 //POST REQUESTS
-/*
+
 app.post("/api/workouts", (req,res) => {
-  db.Workout.find({})
-  .then(dbWorkout => {
-    res.json(dbWorkout);
-  })
-  .catch(err => {
-    res.json(err);
-  });
+
+  let data = req.body;
+
+  db.Workout.create({
+    day: new Date().setDate(new Date().getDate()),
+    exercises:  [
+    {
+    "type" : data.type,
+    "name" : data.name,
+    "duration" : data.duration,
+    "weight" : data.weight,
+    "reps" : data.reps,
+    "sets" : data.sets
+    }
+  ] 
+}).then(dbUpdate => {
+      res.json(dbUpdate);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+
+
+/*  console.log(req.body);
+  res.sendStatus(200);*/
 });
-*/
-
-
 
 
 
