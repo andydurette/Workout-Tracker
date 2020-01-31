@@ -17,19 +17,20 @@ const newWorkout = document.querySelector(".new-workout")
 let workoutType = null;
 let shouldNavigateAway = false;
 
-/*init();
+async function initExercise() {
+  let workout;
 
-async function init() {
   if (location.search.split("=")[1] === undefined) {
-    const workout = await API.getLastWorkout();
-    if(workout) {
-      location.search = "?id=" + workout._id;
-    }
-    else {
-      newWorkout.classList.add("")
-    }
+    workout = await API.createWorkout()
+    console.log(workout)
   }
-} */
+  if (workout) {
+    location.search = "?id=" + workout._id;
+  }
+
+}
+
+initExercise();
 
 function handleWorkoutTypeChange(event) {
   workoutType = event.target.value;
@@ -113,18 +114,9 @@ async function handleFormSubmit(event) {
     workoutData.duration = Number(resistanceDurationInput.value.trim());
   }
 
-  if (location.search.split("=")[1] === undefined) {
-
-  await API.createWorkout(workoutData);
-  clearInputs();
-  toast.classList.add("success");
-
-  }else{
-
   await API.addExercise(workoutData);
   clearInputs();
   toast.classList.add("success");
-  }
 }
 
 function handleToastAnimationEnd() {
@@ -145,16 +137,16 @@ function clearInputs() {
   weightInput.value = "";
 }
 
-if(workoutTypeSelect) {
+if (workoutTypeSelect) {
   workoutTypeSelect.addEventListener("change", handleWorkoutTypeChange);
 }
-if(completeButton) {
-  completeButton.addEventListener("click", function(event) {
+if (completeButton) {
+  completeButton.addEventListener("click", function (event) {
     shouldNavigateAway = true;
     handleFormSubmit(event);
   });
 }
-if(addButton) {
+if (addButton) {
   addButton.addEventListener("click", handleFormSubmit);
 }
 toast.addEventListener("animationend", handleToastAnimationEnd);
