@@ -93,8 +93,6 @@ let data = req.body;
 
 app.post("/api/workouts", (req,res) => {
 
-
-
   let data = req.body;
 
   db.Workout.create({
@@ -105,10 +103,6 @@ app.post("/api/workouts", (req,res) => {
     .catch(err => {
       res.json(err);
     });
-
-
-/*  console.log(req.body);
-  res.sendStatus(200);*/
 });
 
 
